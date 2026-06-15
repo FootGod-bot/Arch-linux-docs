@@ -56,6 +56,160 @@ To switch to a different console—for example, to view this guide with [Lynx](h
 
 To [edit](https://wiki.archlinux.org/title/Textedit) configuration files, [mcedit(1)](https://man.archlinux.org/man/mcedit.1), [nano](https://wiki.archlinux.org/title/Nano#Usage), and [vim](https://wiki.archlinux.org/title/Vim#Usage) are available. See [pkglist.x86_64.txt](https://geo.mirror.pkgbuild.com/iso/latest/arch/pkglist.x86_64.txt) for a list of the packages included in the installation medium.
 
+yeah you definitely want Wi-Fi before SSH, otherwise it’s kinda useless
+
+here’s a clean drop-in section you can place right before your SSH one:
+
+---
+
+## Connect to Wi-Fi (Live ISO)
+
+If you are not using Ethernet, you must connect to Wi-Fi before continuing.
+
+---
+
+### Start iwd (wireless tool)
+
+The Arch ISO uses `iwd` for wireless connections.
+
+```zsh id="wifi01"
+iwctl
+```
+
+You will enter an interactive prompt.
+
+---
+
+### Find your wireless device
+
+Inside `iwctl`:
+
+```zsh id="wifi02"
+device list
+```
+
+Look for something like `wlan0`.
+
+---
+
+### Scan for networks
+
+```zsh id="wifi03"
+station wlan0 scan
+station wlan0 get-networks
+```
+
+Replace `wlan0` if your device name is different.
+
+---
+
+### Connect to Wi-Fi
+
+```zsh id="wifi04"
+station wlan0 connect YOUR_WIFI_NAME
+```
+
+It will ask for the password if required.
+
+---
+
+### Exit iwd
+
+```zsh id="wifi05"
+exit
+```
+
+---
+
+### Test connection
+
+```zsh id="wifi06"
+ping archlinux.org
+```
+
+If you get replies, you're online.
+
+---
+
+### Note
+
+> If Wi-Fi does not show up, make sure your adapter is not blocked:
+
+```zsh
+rfkill unblock all
+```
+
+## Set up SSH support (optional, recommended)
+
+This allows you to remotely access the Arch live environment over the network. Useful for pasting commands from this guide.
+
+---
+
+### Install OpenSSH in the live ISO
+
+The Arch ISO includes SSH by default, But it dosent hurt to double-check:
+
+```zsh id="iso_ssh01"
+pacman -Sy openssh
+```
+
+---
+
+### Set a root password (required for SSH login)
+
+SSH will not allow login without a password set. This password is temorary and is only used during the setup phase, so feel free to use 1 as your password:
+
+```zsh id="iso_ssh02"
+passwd
+```
+
+---
+
+### Start the SSH service
+
+Enable and start the SSH daemon:
+
+```zsh id="iso_ssh03"
+systemctl start sshd
+```
+
+Check status:
+
+```zsh id="iso_ssh04"
+systemctl status sshd
+```
+
+---
+
+### Find your IP address
+
+```zsh id="iso_ssh05"
+ip a
+```
+
+Look for your active interface (like `eth0` or `wlan0`) and an `inet` address (example: `192.168.x.x`).
+
+---
+
+### Connect from another device
+
+From Linux/macOS:
+
+```zsh id="iso_ssh06"
+ssh root@your_ip_address
+```
+
+From Windows:
+
+* PowerShell `ssh root@ip`
+* or PuTTY
+
+---
+
+### Important note
+
+> The Arch ISO runs entirely in RAM. Any SSH setup is temporary and will reset after reboot.
+
 
 ## 1.5 Set the console keyboard layout and font
 The default console keymap is [US](https://en.wikipedia.org/wiki/File:KB_United_States-NoAltGr.svg). Available layouts can be listed with:
@@ -211,7 +365,7 @@ Set type:
 
 ```
 t
-EFI System
+1
 ```
 
 ---
@@ -229,7 +383,7 @@ Set type:
 
 ```
 t
-Linux swap
+19
 ```
 
 ---
@@ -247,7 +401,7 @@ Set type:
 
 ```
 t
-Linux filesystem
+23
 ```
 
 ---
@@ -303,7 +457,7 @@ Set type:
 
 ```
 t
-82
+19
 ```
 
 ---
