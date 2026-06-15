@@ -81,7 +81,7 @@ cat /sys/firmware/efi/fw_platform_size
 - If it returns No such file or directory, the system may be booted in [BIOS](https://en.wikipedia.org/wiki/BIOS) (or [CSM](https://en.wikipedia.org/wiki/Compatibility_Support_Module)) mode.
 If the system did not boot in the mode you desired (UEFI vs BIOS), refer to your motherboard's manual.
 
-## Connect to the internet
+## 1.7 Connect to the internet
 
 To set up a network connection in the live environment, go through the following steps:
 
@@ -104,3 +104,12 @@ To set up a network connection in the live environment, go through the following
 
 > **Note**
 > In the installation image, [systemd-networkd](https://wiki.archlinux.org/title/Systemd-networkd), [systemd-resolved](https://wiki.archlinux.org/title/Systemd-resolved), [iwd](https://wiki.archlinux.org/title/Iwd) and [ModemManager](https://wiki.archlinux.org/title/ModemManager) are preconfigured and enabled by default. That will not be the case for the installed system.
+
+
+## 1.8 Update the system clock
+The live system needs accurate time to prevent package signature verification failures and TLS certificate errors. The [systemd-timesyncd](https://wiki.archlinux.org/title/Systemd-timesyncd) service is enabled by default in the live environment and time will be synchronized automatically once a connection to the internet is established.
+
+Use [timedatectl(1)](https://man.archlinux.org/man/timedatectl.1) to ensure the system clock is synchronized:
+```zsh
+timedatectl
+```
