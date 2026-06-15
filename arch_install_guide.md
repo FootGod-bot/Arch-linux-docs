@@ -544,3 +544,37 @@ Packages to be installed must be downloaded from [mirror servers](https://wiki.a
 On the live system, all HTTPS mirrors are enabled (i.e. uncommented). The topmost worldwide mirror should be fast enough for most people, but you may still want to inspect the file to see if it is satisfactory. If it is not, [edit](https://wiki.archlinux.org/title/Textedit) the file accordingly, and move the geographically closest mirrors to the top of the list, although other criteria should be taken into account. Alternatively, you can use [reflector](https://wiki.archlinux.org/title/Reflector) to create a mirrorlist file based on various criteria.
 
 This file will later be copied to the new system by pacstrap, so it is worth getting right.
+
+
+## 2.2 Install essential packages
+
+After mounting the partitions, install the base system into `/mnt`. Only the `base` package is strictly required, but this guide includes everything needed for a working system.
+
+No configuration from the live ISO is carried over except `/etc/pacman.d/mirrorlist`.
+
+---
+
+## Install the base system
+
+```zsh
+pacstrap -K /mnt base linux linux-firmware
+```
+
+---
+
+## Full install (recommended setup for this guide)
+
+This includes everything needed for boot, networking, and GRUB later:
+
+```zsh
+pacstrap -K /mnt base linux linux-firmware networkmanager nano grub efibootmgr
+```
+
+---
+
+### Notes
+
+* add `intel-ucode` or `amd-ucode` depending on your cpu
+* `networkmanager` is required for internet after install
+* `grub` + `efibootmgr` are required for bootloader setup later
+* Everything else can be installed after first boot
