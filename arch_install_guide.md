@@ -596,3 +596,16 @@ arch-chroot /mnt
 
 > **Note**
 > Some [systemd](https://wiki.archlinux.org/title/Systemd) tools such as [hostnamectl(1)](https://man.archlinux.org/man/hostnamectl.1), [localectl(1)](https://man.archlinux.org/man/localectl.1) and [timedatectl(1)](https://man.archlinux.org/man/timedatectl.1) cannot be used inside a [chroot(1)](https://man.archlinux.org/man/chroot.1), as they require an active [dbus](https://wiki.archlinux.org/title/Dbus) connection. [\[2\]](https://github.com/systemd/systemd/issues/798#issuecomment-126568596)
+
+## 3.3 Time
+For human convenience (e.g. showing the correct local time or handling Daylight Saving Time), set the [time zone](https://wiki.archlinux.org/title/Time_zone):
+```zfs
+ln -sf /usr/share/zoneinfo/Area/Location /etc/localtime
+```
+Run [hwclock(8)](https://man.archlinux.org/man/hwclock.8) to generate `/etc/adjtime`:
+```zfs
+hwclock --systohc
+```
+This command assumes the hardware clock is set to [UTC](https://en.wikipedia.org/wiki/UTC). See [System time#Time standard](https://wiki.archlinux.org/title/System_time#Time_standard) for details.
+
+To prevent clock drift and ensure accurate time, set up [time synchronization](https://wiki.archlinux.org/title/Time_synchronization) using a [Network Time Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol) (NTP) client such as [systemd-timesyncd](https://wiki.archlinux.org/title/Systemd-timesyncd).
