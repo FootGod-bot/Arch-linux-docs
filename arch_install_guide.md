@@ -567,7 +567,7 @@ pacstrap -K /mnt base linux linux-firmware
 This includes everything needed for boot, networking, and GRUB later:
 
 ```zsh
-pacstrap -K /mnt base linux linux-firmware networkmanager nano grub efibootmgr
+pacstrap -K /mnt base linux linux-firmware networkmanager nano grub efibootmgr sudo
 ```
 
 ---
@@ -674,4 +674,87 @@ mkinitcpio -P
 Set a secure [password](https://wiki.archlinux.org/title/Password) for the [root user](https://en.wikipedia.org/wiki/Superuser) to allow performing administrative actions:
 ```zsh
 passwd
+```
+
+## 3.8 User Setup
+
+Create a regular user account for daily use. It is not recommended to use the root account for normal tasks.
+
+---
+
+### Create a new user
+
+Replace `yourusername` with your desired username:
+
+```zsh id="usr01"
+useradd -m -G wheel yourusername
+```
+
+---
+
+### Set a password for the user
+
+```zsh id="usr02"
+passwd yourusername
+```
+
+---
+
+### Enable sudo access (wheel group)
+
+Edit the sudoers file:
+
+```zsh id="usr04"
+EDITOR=nano visudo
+```
+
+Uncomment this line:
+
+```
+%wheel ALL=(ALL:ALL) ALL
+```
+
+---
+
+### Set root password (if not already set)
+
+```zsh id="usr05"
+passwd
+```
+
+
+## 3.9 Boot Loader
+
+Install and configure GRUB for both UEFI and BIOS systems.
+
+---
+
+### UEFI systems
+
+Install GRUB to the EFI system partition:
+
+```zsh id="grub02"
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+```
+
+Generate config:
+
+```zsh id="grub03"
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+---
+
+### BIOS systems
+
+Install GRUB to the disk (replace `/dev/sdX` with your disk, not a partition):
+
+```zsh id="grub04"
+grub-install --target=i386-pc /dev/sdX
+```
+
+Generate config:
+
+```zsh id="grub05"
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
