@@ -24,6 +24,34 @@ pacman-key -v archlinux-version-x86_64.iso.sig
 ```
 > **Note**
 >
-> The signature itself could be manipulated if it is downloaded from a mirror site, instead of from archlinux.org. In this case, ensure that the public key, which is used to decode the signature, is signed by another, trustworthy key. The gpg command will output the fingerprint of the public key.
+> The signature itself could be manipulated if it is downloaded from a mirror site, instead of from [archlinux.org](https://archlinux.org/download/). In this case, ensure that the public key, which is used to decode the signature, is signed by another, trustworthy key. The gpg command will output the fingerprint of the public key.
 >
-> Another method to verify the authenticity of the signature is to ensure that the public key's fingerprint is identical to the key fingerprint of the Arch Linux developer who signed the ISO-file. See Wikipedia:Public-key cryptography for more information on the public-key process to authenticate keys.
+> Another method to verify the authenticity of the signature is to ensure that the public key's fingerprint is identical to the key fingerprint of the [Arch Linux developer](https://archlinux.org/people/developers/) who signed the ISO-file. See [Wikipedia:Public-key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography) for more information on the public-key process to authenticate keys.
+
+## 1.3 Prepare an installation medium
+Use a tool like [Rufus](https://rufus.ie), [Balena Etcher](https://etcher.balena.io), Or some other tool to put your iso on your usb.
+
+##1.4 Boot the live environment
+> **Note**
+>
+> Arch Linux installation images do not support Secure Boot. You will need to [disable Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Disabling_Secure_Boot) to boot the installation medium. If desired, [Secure Boot](https://wiki.archlinux.org/title/Secure_Boot) can be set up after completing the installation.
+Point the current boot device to the one which has the Arch Linux installation medium. Typically it is achieved by pressing a key during the POST phase, as indicated on the splash screen. Refer to your motherboard's manual for details.
+
+When the installation medium's boot loader menu appears:
+
+- If you used the ISO, select **Arch Linux install medium** and press Enter to enter the installation environment.
+- If you used the Netboot image, choose a geographically close mirror from the **Mirror** menu, then select **Boot Arch Linux** and press Enter.
+
+> **Tip**
+>
+> The ISO uses systemd-boot for UEFI and syslinux for BIOS booting. Use respectively `e` or `Tab` to enter the boot parameters.
+> The Netboot image uses iPXE and the boot parameters can be specified in the Boot options menu.
+> See `/usr/share/doc/mkinitcpio-archiso/README.bootparams` for a list.
+>
+> A common example of manually defined boot parameter would be the font size. For better readability on HiDPI screens—when they are not already recognized as such—using `fbcon=font:TER16x32` can help. See HiDPI#Linux console (tty) for a detailed explanation.
+
+You will be logged in on the first virtual console as the root user, and presented with a Zsh shell prompt.
+
+To switch to a different console—for example, to view this guide with Lynx alongside the installation—use the `Alt + arrow` keyboard shortcut.
+
+To edit configuration files, `mcedit(1)`, `nano`, and `vim` are available. See `pkglist.x86_64.txt` for a list of the packages included in the installation medium.
