@@ -19,7 +19,7 @@ It is recommended to verify the image signature before use, especially when down
 Download the ISO PGP signature from [https://archlinux.org/download/#checksums](https://archlinux.org/download/#checksums) to the ISO directory and follow the instructions there to verify it.  
 
 Alternatively, from an existing Arch Linux installation run:  
-```bash
+```zsh
 pacman-key -v archlinux-version-x86_64.iso.sig
 ```
 > **Note**
@@ -31,7 +31,7 @@ pacman-key -v archlinux-version-x86_64.iso.sig
 ## 1.3 Prepare an installation medium
 Use a tool like [Rufus](https://rufus.ie), [Balena Etcher](https://etcher.balena.io), Or some other tool to put your iso on your usb.
 
-##1.4 Boot the live environment
+## 1.4 Boot the live environment
 > **Note**
 >
 > Arch Linux installation images do not support Secure Boot. You will need to [disable Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Disabling_Secure_Boot) to boot the installation medium. If desired, [Secure Boot](https://wiki.archlinux.org/title/Secure_Boot) can be set up after completing the installation.
@@ -55,3 +55,18 @@ You will be logged in on the first [virtual console](https://en.wikipedia.org/wi
 To switch to a different console—for example, to view this guide with [Lynx](https://lynx.invisible-island.net/lynx_help/Lynx_users_guide.html) alongside the installation—use the `Alt + arrow` [keyboard shortcut](https://wiki.archlinux.org/title/Linux_console#Keyboard_shortcuts).
 
 To [edit](https://wiki.archlinux.org/title/Textedit) configuration files, [mcedit(1)](https://man.archlinux.org/man/mcedit.1), [nano](https://wiki.archlinux.org/title/Nano#Usage), and [vim](https://wiki.archlinux.org/title/Vim#Usage) are available. See [pkglist.x86_64.txt](https://geo.mirror.pkgbuild.com/iso/latest/arch/pkglist.x86_64.txt) for a list of the packages included in the installation medium.
+
+
+## 1.5 Set the console keyboard layout and font
+The default console keymap is [US](https://en.wikipedia.org/wiki/File:KB_United_States-NoAltGr.svg). Available layouts can be listed with:
+```bash
+localectl list-keymaps
+```
+To set the keyboard layout, pass its name to [loadkeys(1)](https://man.archlinux.org/man/loadkeys.1). For example, to set a [German](https://en.wikipedia.org/wiki/File:KB_Germany.svg) keyboard layout:
+```zsh
+loadkeys de-latin1
+```
+[Console fonts](https://wiki.archlinux.org/title/Console_fonts) are located in `/usr/share/kbd/consolefonts/` and can likewise be set with [setfont(8)](https://man.archlinux.org/man/setfont.8) omitting the path and file extension. For example, to use one of the largest fonts suitable for [HiDPI screens](https://wiki.archlinux.org/title/HiDPI#Linux_console_(tty)), run:
+```bash
+setfont ter-132b
+```
