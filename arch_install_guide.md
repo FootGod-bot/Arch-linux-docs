@@ -113,3 +113,30 @@ Use [timedatectl(1)](https://man.archlinux.org/man/timedatectl.1) to ensure the 
 ```zsh
 timedatectl
 ```
+
+
+## 1.9 Partition the disks
+When recognized by the live system, disks are assigned to a block device such as /dev/sda, /dev/nvme0n1 or /dev/mmcblk0. To identify these devices, use somthing like lsblk.
+```zsh
+lsblk
+```
+Results ending in `rom`, `loop` or `airootfs` may be ignored. `mmcblk*` devices ending in `rpmb`, `boot0` and `boot1` can be ignored.
+> **Note**
+> If the disk does not show up, [make sure the disk controller is not in RAID mode](https://wiki.archlinux.org/title/Partitioning#Drives_are_not_visible_when_firmware_RAID_is_enabled).
+
+
+> Tip
+Check that your NVMe drives and Advanced Format hard disk drives are using the [optimal logical sector size](https://wiki.archlinux.org/title/Advanced_Format) before partitioning.
+The following [partitions](https://wiki.archlinux.org/title/Partition) are required for a chosen device:
+
+- One partition for the [root directory](https://en.wikipedia.org/wiki/Root_directory) /.
+- For booting in [UEFI](https://wiki.archlinux.org/title/UEFI) mode: an [EFI system partition](https://wiki.archlinux.org/title/EFI_system_partition).
+Use a [partitioning tool](https://wiki.archlinux.org/title/Partitioning#Partitioning_tools) like [fdisk](https://wiki.archlinux.org/title/Fdisk) to modify partition tables. For example:
+```zsh
+fdisk /dev/the_disk_to_be_partitioned
+```
+> **Note**
+> Take time to plan a long-term partitioning scheme to avoid risky and complicated conversion or re-partitioning procedures in the future.
+> If you want to create any stacked block devices for [LVM](https://wiki.archlinux.org/title/Install_Arch_Linux_on_LVM), [system encryption](https://wiki.archlinux.org/title/Dm-crypt) or [RAID](https://wiki.archlinux.org/title/RAID), do it now.
+> If the disk from which you want to boot already has an [EFI system partition](https://wiki.archlinux.org/title/EFI_system_partition#Check_for_an_existing_partition), do not create another one, but use the existing partition instead.
+> [Swap](https://wiki.archlinux.org/title/Swap) space can be set on a [swap file](https://wiki.archlinux.org/title/Swap_file) for file systems supporting it. Alternatively, disk based swap can be avoided entirely by setting up [swap on zram](https://wiki.archlinux.org/title/Zram#Usage_as_swap) after installing the system.
