@@ -578,3 +578,12 @@ pacstrap -K /mnt base linux linux-firmware networkmanager nano grub efibootmgr
 * `networkmanager` is required for internet after install
 * `grub` + `efibootmgr` are required for bootloader setup later
 * Everything else can be installed after first boot
+
+
+# 3 Configure the system
+## 3.1 Fstab
+To get needed file systems (like the one used for the boot directory `/boot`) mounted on startup, generate an [fstab](https://wiki.archlinux.org/title/Fstab) file with [persistent block device naming](https://wiki.archlinux.org/title/Persistent_block_device_naming) using [genfstab(8)](https://man.archlinux.org/man/genfstab.8). For example, reference file systems by their [UUIDs](https://wiki.archlinux.org/title/UUID) with `-U`:
+```zfs
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+Check the resulting `/mnt/etc/fstab` file, and [edit](https://wiki.archlinux.org/title/Textedit) it in case of errors.
