@@ -380,6 +380,7 @@ Set type:
 
 ```
 t
+[enter]
 19
 ```
 
@@ -398,6 +399,7 @@ Set type:
 
 ```
 t
+[enter]
 23
 ```
 
