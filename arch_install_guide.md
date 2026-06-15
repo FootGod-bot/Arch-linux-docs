@@ -609,3 +609,25 @@ hwclock --systohc
 This command assumes the hardware clock is set to [UTC](https://en.wikipedia.org/wiki/UTC). See [System time#Time standard](https://wiki.archlinux.org/title/System_time#Time_standard) for details.
 
 To prevent clock drift and ensure accurate time, set up [time synchronization](https://wiki.archlinux.org/title/Time_synchronization) using a [Network Time Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol) (NTP) client such as [systemd-timesyncd](https://wiki.archlinux.org/title/Systemd-timesyncd).
+
+## 3.4 Localization
+To use the correct region and language specific formatting (like dates, currency, decimal separators), [edit](https://wiki.archlinux.org/title/Textedit) `/etc/locale.gen` and uncomment the UTF-8 [locales](https://wiki.archlinux.org/title/Locale) you will be using. Generate the locales by running:
+
+```zsh
+locale-gen
+```
+[Create](https://wiki.archlinux.org/title/Create) the [locale.conf(5)](https://man.archlinux.org/man/locale.conf.5) file, and [set the LANG variable](https://wiki.archlinux.org/title/Locale#Setting_the_system_locale) accordingly:
+
+```zsh
+/etc/locale.conf
+```
+```zsh
+LANG=en_US.UTF-8
+```
+If you [set the console keyboard layout](https://wiki.archlinux.org/title/Installation_guide#Set_the_console_keyboard_layout_and_font), make the changes persistent in [vconsole.conf(5)](https://man.archlinux.org/man/vconsole.conf.5):
+```zsh
+/etc/vconsole.conf
+```
+```zsh
+KEYMAP=de-latin1
+```
