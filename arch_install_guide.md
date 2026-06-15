@@ -35,7 +35,7 @@ Use a tool like [Rufus](https://rufus.ie), [Balena Etcher](https://etcher.balena
 > **Note**
 >
 > Arch Linux installation images do not support Secure Boot. You will need to [disable Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Disabling_Secure_Boot) to boot the installation medium. If desired, [Secure Boot](https://wiki.archlinux.org/title/Secure_Boot) can be set up after completing the installation.
-Point the current boot device to the one which has the Arch Linux installation medium. Typically it is achieved by pressing a key during the POST phase, as indicated on the splash screen. Refer to your motherboard's manual for details.
+Point the current boot device to the one which has the Arch Linux installation medium. Typically it is achieved by pressing a key during the [POST](https://en.wikipedia.org/wiki/Power-on_self_test) phase, as indicated on the splash screen. Refer to your motherboard's manual for details.  
 
 When the installation medium's boot loader menu appears:
 
@@ -44,14 +44,14 @@ When the installation medium's boot loader menu appears:
 
 > **Tip**
 >
-> The ISO uses systemd-boot for UEFI and syslinux for BIOS booting. Use respectively `e` or `Tab` to enter the boot parameters.
+> The ISO uses [systemd-boot](https://wiki.archlinux.org/title/Systemd-boot) for UEFI and [syslinux](https://wiki.archlinux.org/title/Syslinux) for BIOS booting. Use respectively `e` or `Tab` to enter the [boot parameters](https://wiki.archlinux.org/title/Kernel_parameters#Boot_loader_configuration).
 > The Netboot image uses iPXE and the boot parameters can be specified in the Boot options menu.
-> See `/usr/share/doc/mkinitcpio-archiso/README.bootparams` for a list.
+> See `[/usr/share/doc/mkinitcpio-archiso/README.bootparams](https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio-archiso/blob/master/docs/README.bootparams)` for a list.
 >
-> A common example of manually defined boot parameter would be the font size. For better readability on HiDPI screens—when they are not already recognized as such—using `fbcon=font:TER16x32` can help. See HiDPI#Linux console (tty) for a detailed explanation.
+> A common example of manually defined boot parameter would be the font size. For better readability on HiDPI screens—when they are not already recognized as such—using `fbcon=font:TER16x32` can help. [See HiDPI#Linux console (tty)](https://wiki.archlinux.org/title/HiDPI#Linux_console_(tty)) for a detailed explanation.
 
-You will be logged in on the first virtual console as the root user, and presented with a Zsh shell prompt.
+You will be logged in on the first [virtual console](https://en.wikipedia.org/wiki/Virtual_console) as the root user, and presented with a [Zsh](https://wiki.archlinux.org/title/Zsh) shell prompt.
 
-To switch to a different console—for example, to view this guide with Lynx alongside the installation—use the `Alt + arrow` keyboard shortcut.
+To switch to a different console—for example, to view this guide with [Lynx](https://lynx.invisible-island.net/lynx_help/Lynx_users_guide.html) alongside the installation—use the `Alt + arrow` [keyboard shortcut](https://wiki.archlinux.org/title/Linux_console#Keyboard_shortcuts).
 
-To edit configuration files, `mcedit(1)`, `nano`, and `vim` are available. See `pkglist.x86_64.txt` for a list of the packages included in the installation medium.
+To [edit](https://wiki.archlinux.org/title/Textedit) configuration files, `[mcedit(1)](https://man.archlinux.org/man/mcedit.1)`, `[nano](https://wiki.archlinux.org/title/Nano#Usage)`, and `[vim](https://wiki.archlinux.org/title/Vim#Usage)` are available. See `[pkglist.x86_64.txt](https://geo.mirror.pkgbuild.com/iso/latest/arch/pkglist.x86_64.txt)` for a list of the packages included in the installation medium.
