@@ -285,10 +285,7 @@ The following [partitions](https://wiki.archlinux.org/title/Partition) are requi
 
 - One partition for the [root directory](https://en.wikipedia.org/wiki/Root_directory) /.
 - For booting in [UEFI](https://wiki.archlinux.org/title/UEFI) mode: an [EFI system partition](https://wiki.archlinux.org/title/EFI_system_partition).
-Use a [partitioning tool](https://wiki.archlinux.org/title/Partitioning#Partitioning_tools) like [fdisk](https://wiki.archlinux.org/title/Fdisk) to modify partition tables. For example:
-```zsh
-fdisk /dev/the_disk_to_be_partitioned
-```
+Use a [partitioning tool](https://wiki.archlinux.org/title/Partitioning#Partitioning_tools) like [fdisk](https://wiki.archlinux.org/title/Fdisk) to modify partition tables.
 > **Note**
 > Take time to plan a long-term partitioning scheme to avoid risky and complicated conversion or re-partitioning procedures in the future.
 > If you want to create any stacked block devices for [LVM](https://wiki.archlinux.org/title/Install_Arch_Linux_on_LVM), [system encryption](https://wiki.archlinux.org/title/Dm-crypt) or [RAID](https://wiki.archlinux.org/title/RAID), do it now.
