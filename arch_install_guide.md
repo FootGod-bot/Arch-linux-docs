@@ -360,3 +360,25 @@ If you created an EFI system partition, [format](https://wiki.archlinux.org/titl
 ```zsh
 mkfs.fat -F 32 /dev/efi_system_partition
 ```
+
+## 1.11 Mount the file systems
+Mount the root volume to `/mnt`. For example, if the root volume is `/dev/root_partition`:
+```zsh
+mount /dev/root_partition /mnt
+```
+
+Create any remaining mount points under `/mnt` (such as `/mnt/boot` for `/boot`) and mount the volumes in their corresponding hierarchical order.
+
+> **Tip**
+> Run [mount(8)](https://man.archlinux.org/man/mount.8) with the --mkdir option to create the specified mount point. Alternatively, create it using [mkdir(1)](https://man.archlinux.org/man/mkdir.1) beforehand.
+
+
+For UEFI systems, mount the EFI system partition. For example:
+```zsh
+mount --mkdir /dev/efi_system_partition /mnt/boot
+```
+If you created a [swap](https://wiki.archlinux.org/title/Swap) volume, enable it with [swapon(8)](https://man.archlinux.org/man/swapon.8):
+```zsh
+swapon /dev/swap_partition
+```
+[genfstab(8)](https://man.archlinux.org/man/genfstab.8) will later detect mounted file systems and swap space.
