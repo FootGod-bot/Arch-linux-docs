@@ -71,7 +71,7 @@ loadkeys de-latin1
 setfont ter-132b
 ```
 
-# 1.6 Verify the boot mode
+## 1.6 Verify the boot mode
 To verify the boot mode, check the [UEFI bitness](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface#UEFI_firmware_bitness):
 ```zsh
 cat /sys/firmware/efi/fw_platform_size
@@ -140,3 +140,223 @@ fdisk /dev/the_disk_to_be_partitioned
 > If you want to create any stacked block devices for [LVM](https://wiki.archlinux.org/title/Install_Arch_Linux_on_LVM), [system encryption](https://wiki.archlinux.org/title/Dm-crypt) or [RAID](https://wiki.archlinux.org/title/RAID), do it now.
 > If the disk from which you want to boot already has an [EFI system partition](https://wiki.archlinux.org/title/EFI_system_partition#Check_for_an_existing_partition), do not create another one, but use the existing partition instead.
 > [Swap](https://wiki.archlinux.org/title/Swap) space can be set on a [swap file](https://wiki.archlinux.org/title/Swap_file) for file systems supporting it. Alternatively, disk based swap can be avoided entirely by setting up [swap on zram](https://wiki.archlinux.org/title/Zram#Usage_as_swap) after installing the system.
+
+## 1.9.1 Partitioning with fdisk
+
+`fdisk` is used to create and manage partitions on your disk. First, identify your disk:
+
+```zsh
+lsblk
+```
+
+Look for something like `/dev/sda` or `/dev/nvme0n1`. **If you choose the wrong disk, you will permanently lose all data on that disk.**
+
+---
+
+### Clear the drive (optional but recommended)
+
+Before partitioning, you can remove existing filesystem signatures:
+
+```zsh
+wipefs -a /dev/YOUR-DRIVE-HERE
+```
+
+> **WARNING**
+> This is irreversible. Double-check the disk before running it.
+
+---
+
+### Start fdisk
+
+```zsh
+fdisk /dev/YOUR-DRIVE-HERE
+```
+
+Inside `fdisk`, each command is entered one at a time. You can always press:
+
+* `p` → view current partitions
+* `q` → quit without saving
+* `w` → write changes and exit
+
+---
+
+### UEFI with GPT layout (recommended)
+
+This setup creates:
+
+* 1 GiB EFI System Partition
+* 4 GiB swap partition
+* Remaining space as root (`/`)
+
+Inside `fdisk`:
+
+### 1. Create GPT table
+
+```
+g
+```
+
+---
+
+### 2. EFI partition (1 GiB)
+
+```
+n
+[enter]
+[enter]
++1G
+```
+
+Set type:
+
+```
+t
+EFI System
+```
+
+---
+
+### 3. Swap partition (4 GiB or more)
+
+```
+n
+[enter]
+[enter]
++4G
+```
+
+Set type:
+
+```
+t
+Linux swap
+```
+
+---
+
+### 4. Root partition (rest of disk)
+
+```
+n
+[enter]
+[enter]
+[enter]
+```
+
+Set type:
+
+```
+t
+Linux filesystem
+```
+
+---
+
+### 5. Write changes
+
+```
+w
+```
+
+---
+
+### Resulting layout (UEFI GPT)
+
+| Mount point   | Partition                 | Type                  | Size         |
+| ------------- | ------------------------- | --------------------- | ------------ |
+| /boot or /efi | /dev/efi_system_partition | EFI System Partition  | 1 GiB        |
+| [SWAP]        | /dev/swap_partition       | Linux swap            | ≥ 4 GiB      |
+| /             | /dev/root_partition       | Linux x86-64 root (/) | rest of disk |
+
+---
+
+### BIOS with MBR layout
+
+Start fdisk the same way:
+
+```zsh
+fdisk /dev/YOUR-DRIVE-HERE
+```
+
+Inside `fdisk`:
+
+---
+
+### 1. Create MBR table
+
+```
+o
+```
+
+---
+
+### 2. Swap partition (4 GiB or more)
+
+```
+n
+[enter]
+[enter]
++4G
+```
+
+Set type:
+
+```
+t
+82
+```
+
+---
+
+### 3. Root partition (rest of disk)
+
+```
+n
+[enter]
+[enter]
+[enter]
+```
+
+---
+
+### 4. Write changes
+
+```
+w
+```
+
+---
+
+### Resulting layout (BIOS MBR)
+
+| Mount point | Partition           | Type       | Size         |
+| ----------- | ------------------- | ---------- | ------------ |
+| [SWAP]      | /dev/swap_partition | Linux swap | ≥ 4 GiB      |
+| /           | /dev/root_partition | Linux      | rest of disk |
+
+
+
+
+## 1.10 Format the partitions
+Once the partitions have been created, each newly created partition must be formatted with an appropriate [file system](https://wiki.archlinux.org/title/File_system). See [File systems#Create a file system](https://wiki.archlinux.org/title/File_systems#Create_a_file_system) for details.
+
+For example, to create an [Ext4](https://wiki.archlinux.org/title/Ext4) file system on `/dev/root_partition`, run:
+```zsh
+mkfs.ext4 /dev/root_partition
+```
+If you created a partition for [swap](https://wiki.archlinux.org/title/Swap), initialize it with [mkswap(8)](https://man.archlinux.org/man/mkswap.8):
+```zsh
+mkswap /dev/swap_partition
+```
+> **Note**
+> For stacked block devices replace `/dev/*_partition` with the appropriate block device path.
+
+
+If you created an EFI system partition, [format](https://wiki.archlinux.org/title/EFI_system_partition#Format_the_partition) it to FAT32 using [mkfs.fat(8)](https://man.archlinux.org/man/mkfs.fat.8).
+
+
+> **WARNING**
+> Only format the EFI system partition if you created it during the partitioning step. If there already was an EFI system partition on disk beforehand, reformatting it can destroy the boot loaders of other installed operating systems.
+```zsh
+mkfs.fat -F 32 /dev/efi_system_partition
+```
