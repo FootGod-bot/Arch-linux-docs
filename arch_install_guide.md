@@ -536,3 +536,11 @@ If you created a [swap](https://wiki.archlinux.org/title/Swap) volume, enable it
 swapon /dev/swap_partition
 ```
 [genfstab(8)](https://man.archlinux.org/man/genfstab.8) will later detect mounted file systems and swap space.
+
+# 2 Installation
+## 2.1 Select the mirrors
+Packages to be installed must be downloaded from [mirror servers](https://wiki.archlinux.org/title/Mirrors), which are defined in `/etc/pacman.d/mirrorlist`. The higher a mirror is placed in the list, the more priority it is given when downloading a package.
+
+On the live system, all HTTPS mirrors are enabled (i.e. uncommented). The topmost worldwide mirror should be fast enough for most people, but you may still want to inspect the file to see if it is satisfactory. If it is not, [edit](https://wiki.archlinux.org/title/Textedit) the file accordingly, and move the geographically closest mirrors to the top of the list, although other criteria should be taken into account. Alternatively, you can use [reflector](https://wiki.archlinux.org/title/Reflector) to create a mirrorlist file based on various criteria.
+
+This file will later be copied to the new system by pacstrap, so it is worth getting right.
