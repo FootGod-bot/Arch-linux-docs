@@ -22,6 +22,8 @@ Alternatively, from an existing Arch Linux installation run:
 ```bash
 pacman-key -v archlinux-version-x86_64.iso.sig
 ```
-> **Note:**
-> The signature itself could be manipulated if it is downloaded from a mirror site...
-> ensure that the public key...
+> **Note**
+>
+> The signature itself could be manipulated if it is downloaded from a mirror site, instead of from archlinux.org. In this case, ensure that the public key, which is used to decode the signature, is signed by another, trustworthy key. The gpg command will output the fingerprint of the public key.
+>
+> Another method to verify the authenticity of the signature is to ensure that the public key's fingerprint is identical to the key fingerprint of the Arch Linux developer who signed the ISO-file. See Wikipedia:Public-key cryptography for more information on the public-key process to authenticate keys.
