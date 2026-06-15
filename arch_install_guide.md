@@ -587,3 +587,12 @@ To get needed file systems (like the one used for the boot directory `/boot`) mo
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 Check the resulting `/mnt/etc/fstab` file, and [edit](https://wiki.archlinux.org/title/Textedit) it in case of errors.
+
+## 3.2 Chroot
+To directly interact with the new system's environment, tools, and configurations for the next steps as if you were booted into it, [change root](https://wiki.archlinux.org/title/Change_root) into the new system:
+```zsh
+arch-chroot /mnt
+```
+
+> **Note**
+> Some [systemd](https://wiki.archlinux.org/title/Systemd) tools such as [hostnamectl(1)](https://man.archlinux.org/man/hostnamectl.1), [localectl(1)](https://man.archlinux.org/man/localectl.1) and [timedatectl(1)](https://man.archlinux.org/man/timedatectl.1) cannot be used inside a [chroot(1)](https://man.archlinux.org/man/chroot.1), as they require an active [dbus](https://wiki.archlinux.org/title/Dbus) connection. [\[2\]](https://github.com/systemd/systemd/issues/798#issuecomment-126568596)
