@@ -12,3 +12,16 @@ Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB
 # 1. Pre-installation
 ## 1.1. Acquire an installation image
 Visit [https://archlinux.org/download](https://archlinux.org/download) for official images, and, depending on how you want to boot, acquire the ISO file or a netboot image, and the respective PGP signature.
+
+## 1.2. Verify signature
+It is recommended to verify the image signature before use, especially when downloading from an HTTP mirror, where downloads are generally prone to be intercepted to [serve malicious images](https://www2.cs.arizona.edu/stork/packagemanagersecurity/attacks-on-package-managers.html).  
+
+Download the ISO PGP signature from [https://archlinux.org/download/#checksums](https://archlinux.org/download/#checksums) to the ISO directory and follow the instructions there to verify it.  
+
+Alternatively, from an existing Arch Linux installation run:  
+```bash
+pacman-key -v archlinux-version-x86_64.iso.sig
+```
+> **Note:**
+> The signature itself could be manipulated if it is downloaded from a mirror site...
+> ensure that the public key...
