@@ -631,3 +631,47 @@ If you [set the console keyboard layout](https://wiki.archlinux.org/title/Instal
 ```zsh
 KEYMAP=de-latin1
 ```
+
+
+## 3.5 Network configuration
+
+To assign a consistent, identifiable name to your system (especially useful in a networked environment), create the hostname file:
+
+```zsh id="net01"
+/etc/hostname
+yourhostname
+```
+
+---
+
+### Enable networking
+
+If you installed `networkmanager`, enable it so networking works after reboot:
+
+```zsh id="net02"
+systemctl enable NetworkManager
+```
+
+---
+
+### Optional check
+
+You can verify your hostname file exists:
+
+```zsh id="net03"
+cat /etc/hostname
+```
+
+## 3.6 Initramfs
+Creating a new initramfs is usually not required, because [mkinitcpio](https://wiki.archlinux.org/title/Mkinitcpio) was run on installation of the [kernel](https://wiki.archlinux.org/title/Kernel) package with pacstrap.
+
+For [LVM](https://wiki.archlinux.org/title/Install_Arch_Linux_on_LVM#Adding_mkinitcpio_hooks), [system encryption](https://wiki.archlinux.org/title/Dm-crypt) or [RAID](https://wiki.archlinux.org/title/RAID#Configure_mkinitcpio), modify [mkinitcpio.conf(5)](https://man.archlinux.org/man/mkinitcpio.conf.5) and recreate the initramfs image. If you have [changed the default console keymap](https://wiki.archlinux.org/title/Installation_guide#Localization), only recreating the initramfs is required:
+
+```zfs
+mkinitcpio -P
+```
+## 3.7 Root password
+Set a secure [password](https://wiki.archlinux.org/title/Password) for the [root user](https://en.wikipedia.org/wiki/Superuser) to allow performing administrative actions:
+```zsh
+passwd
+```
