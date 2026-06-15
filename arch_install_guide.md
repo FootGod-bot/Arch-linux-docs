@@ -46,7 +46,7 @@ When the installation medium's boot loader menu appears:
 >
 > The ISO uses [systemd-boot](https://wiki.archlinux.org/title/Systemd-boot) for UEFI and [syslinux](https://wiki.archlinux.org/title/Syslinux) for BIOS booting. Use respectively `e` or `Tab` to enter the [boot parameters](https://wiki.archlinux.org/title/Kernel_parameters#Boot_loader_configuration).
 > The Netboot image uses iPXE and the boot parameters can be specified in the Boot options menu.
-> See `[/usr/share/doc/mkinitcpio-archiso/README.bootparams](https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio-archiso/blob/master/docs/README.bootparams)` for a list.
+> See [/usr/share/doc/mkinitcpio-archiso/README.bootparams](https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio-archiso/blob/master/docs/README.bootparams) for a list.
 >
 > A common example of manually defined boot parameter would be the font size. For better readability on HiDPI screens—when they are not already recognized as such—using `fbcon=font:TER16x32` can help. [See HiDPI#Linux console (tty)](https://wiki.archlinux.org/title/HiDPI#Linux_console_(tty)) for a detailed explanation.
 
@@ -54,4 +54,4 @@ You will be logged in on the first [virtual console](https://en.wikipedia.org/wi
 
 To switch to a different console—for example, to view this guide with [Lynx](https://lynx.invisible-island.net/lynx_help/Lynx_users_guide.html) alongside the installation—use the `Alt + arrow` [keyboard shortcut](https://wiki.archlinux.org/title/Linux_console#Keyboard_shortcuts).
 
-To [edit](https://wiki.archlinux.org/title/Textedit) configuration files, `[mcedit(1)](https://man.archlinux.org/man/mcedit.1)`, `[nano](https://wiki.archlinux.org/title/Nano#Usage)`, and `[vim](https://wiki.archlinux.org/title/Vim#Usage)` are available. See `[pkglist.x86_64.txt](https://geo.mirror.pkgbuild.com/iso/latest/arch/pkglist.x86_64.txt)` for a list of the packages included in the installation medium.
+To [edit](https://wiki.archlinux.org/title/Textedit) configuration files, [mcedit(1)](https://man.archlinux.org/man/mcedit.1), [nano](https://wiki.archlinux.org/title/Nano#Usage), and [vim](https://wiki.archlinux.org/title/Vim#Usage) are available. See [pkglist.x86_64.txt](https://geo.mirror.pkgbuild.com/iso/latest/arch/pkglist.x86_64.txt) for a list of the packages included in the installation medium.
