@@ -5,7 +5,7 @@
 Install the QEMU guest agent (used by Proxmox for better VM integration):
 
 ```bash
-pacman -Syu qemu-guest-agent
+sudo pacman -Syu qemu-guest-agent
 ```
 
 Then enable it in Proxmox VM settings.
@@ -21,7 +21,7 @@ Cloud-Init lets Proxmox auto-configure things like IPs, users, SSH keys, etc.
 ### 2.1 Install Cloud-Init
 
 ```bash
-pacman -S cloud-init
+sudo pacman -S cloud-init
 ```
 
 ---
@@ -31,10 +31,10 @@ pacman -S cloud-init
 Enable all Cloud-Init services:
 
 ```bash
-systemctl enable cloud-init-local.service
-systemctl enable cloud-init.service
-systemctl enable cloud-config.service
-systemctl enable cloud-final.service
+sudo systemctl enable cloud-init-local.service
+sudo systemctl enable cloud-init-main.service
+sudo systemctl enable cloud-config.service
+sudo systemctl enable cloud-final.service
 ```
 
 ---
@@ -44,7 +44,7 @@ systemctl enable cloud-final.service
 Edit the config file:
 
 ```bash
-nano /etc/cloud/cloud.cfg
+sudo nano /etc/cloud/cloud.cfg
 ```
 
 Add this line:
@@ -68,11 +68,11 @@ system_info:
 Run this before turning it into a template:
 
 ```bash
-cloud-init clean --logs
+sudo cloud-init clean --logs
 
-truncate -s 0 /etc/machine-id
-rm -f /var/lib/dbus/machine-id
-ln -s /etc/machine-id /var/lib/dbus/machine-id
+sudo truncate -s 0 /etc/machine-id
+sudo rm -f /var/lib/dbus/machine-id
+sudo ln -s /etc/machine-id /var/lib/dbus/machine-id
 ```
 
 ---
@@ -80,7 +80,7 @@ ln -s /etc/machine-id /var/lib/dbus/machine-id
 ### 2.5 Power Off VM
 
 ```bash
-poweroff
+sudo poweroff
 ```
 
 ---
